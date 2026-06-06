@@ -1,4 +1,5 @@
-﻿namespace MauiAppMinhasCompras
+﻿using MauiAppMinhasCompras.Views;
+namespace MauiAppMinhasCompras
 {
     public partial class App : Application
     {
@@ -9,20 +10,22 @@
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            Window window = new Window(new AppShell());
+            Page PaginaInicial = new ListaProduto();
 
-            window.Width = AutomationIdProperty.DefaultValue switch
+            Window window = new Window(PaginaInicial);
+
+            window.Width = DeviceInfo.Platform switch
             {
-                "iOS" => 375,
-                "Android" => 400,
+                var p when p == DevicePlatform.iOS => 375,
+                var p when p == DevicePlatform.Android => 360,
                 _ => 1280
             };
-            window.Height = AutomationIdProperty.DefaultValue switch
-            {
-                "iOS" => 667,
-                "Android" => 700,
-                _ => 720
 
+            window.Height = DeviceInfo.Platform switch
+            {
+                var p when p == DevicePlatform.iOS => 667,
+                var p when p == DevicePlatform.Android => 640,
+                _ => 720
             };
 
             return window;
