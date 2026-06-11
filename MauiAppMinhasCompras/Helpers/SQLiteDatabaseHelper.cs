@@ -11,6 +11,7 @@ namespace MauiAppMinhasCompras.Helpers
     {
         readonly SQLiteAsyncConnection _connection;
 
+        //Controla todo o CRUD do SQLite, ou seja, as operações de Create (Criar), Read (Ler), Update (Atualizar) e Delete (Excluir) em um banco de dados SQLite. Ele utiliza a biblioteca SQLite para realizar essas operações de forma assíncrona, permitindo que o aplicativo continue responsivo durante as operações de banco de dados.
         public SQLiteDatabaseHelper(string path)
         {
             _connection = new SQLiteAsyncConnection(path);
@@ -22,6 +23,7 @@ namespace MauiAppMinhasCompras.Helpers
             return _connection.InsertAsync(p);// Retorna o número de linhas afetadas
         }
 
+        
         public Task<List<Produto>> Update(Produto p) 
         {
             // O método UpdateAsync do SQLiteAsyncConnection é usado para atualizar um registro existente na tabela. Ele compara o objeto fornecido com os registros existentes usando a chave primária (Id) e atualiza os campos correspondentes.
