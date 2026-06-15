@@ -4,7 +4,12 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:MauiAppMinhasCompras.Views"
-    Title="MauiAppMinhasCompras">
+    Title="MauiAppMinhasCompras"
+    Shell.BackgroundColor="{StaticResource Primary}"
+    Shell.ForegroundColor="{StaticResource White}"
+    Shell.TitleColor="{StaticResource White}"
+    Shell.DisabledColor="Gray"
+    Shell.UnselectedColor="{StaticResource Gray200}">
 
     <ShellContent
         Title="Home"

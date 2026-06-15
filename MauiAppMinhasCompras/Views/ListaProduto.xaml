@@ -7,55 +7,72 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Somar" Clicked="ToolbarItem_Clicked_1"/>
         <ToolbarItem Text="Adicionar" Clicked="ToolbarItem_Clicked" />
-        
-    </ContentPage.ToolbarItems>
-    <VerticalStackLayout>
-        
-        <SearchBar x:Name="txt_search" Placeholder="Pesquisa de produtos" 
-                   TextChanged="txt_search_TextChanged"/>
-        
-        <CollectionView x:Name="lst_produtos" >
-            <!--Cabeçalho da lista-->
-            <CollectionView.Header>
-                <Grid ColumnDefinitions="*, *, *, *, *">
-                    <Label Grid.Column="0" Text="ID" />
-                    <Label Grid.Column="1" Text="Descrição" />
-                    <Label Grid.Column="2" Text="Preço" />
-                    <Label Grid.Column="3" Text="Quantidade" />
-                    <Label Grid.Column="4" Text="Total" />
-                </Grid>
-            </CollectionView.Header>
-            
-                <!-- Itens da Lista com SwipeView-->
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    
-                    <!--Envolvendo tudo com SwipeView-->
-                    <SwipeView HeightRequest="60" BackgroundColor="Gray">
-                        <!---Definindo As Ações do Swipe-->
-                        <SwipeView.RightItems>
-                            <SwipeItems Mode="Reveal">
-                                <!---Ação de excluir-->
-                                <SwipeItem Text="Excluir" BackgroundColor="Red" Clicked="SwipeItem_Clicked"/>
-                                <!---Ação de editar-->
-                                <SwipeItem Text="Editar" BackgroundColor="Orange" Clicked="SwipeItem_Clicked_1"/>
-                            </SwipeItems>
-                        </SwipeView.RightItems>
 
-                        <SwipeView.Content>
-                            <Grid ColumnDefinitions="*, *, *, *, *" Padding="10">
-                                <Label Grid.Column="0" Text="{Binding Id}" />
-                                <Label Grid.Column="1" Text="{Binding Descricao}" />
-                                <Label Grid.Column="2" Text="{Binding Preco}" />
-                                <Label Grid.Column="3" Text="{Binding Quantidade}" />
-                                <Label Grid.Column="4" Text="{Binding Total}" />
-                            </Grid>
-                        </SwipeView.Content>
-                        
-                    </SwipeView>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-            
-        </CollectionView>
-    </VerticalStackLayout>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="VerticalTextAlignment" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <Grid RowDefinitions="auto, *">
+        <SearchBar Grid.Row="0" x:Name="txt_search" Placeholder="Pesquisa de produtos" 
+                TextChanged="txt_search_TextChanged" Margin="-15, 0, 0, 0"/>
+        <Border Grid.Row="1" 
+                Padding="0" 
+                Margin="10" 
+                VerticalOptions="Fill"
+                Stroke="Black"
+                StrokeThickness="2"
+                >
+            <!-- É aqui que será definido as bordas arredondadas-->
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="15"/>
+            </Border.StrokeShape>
+            <RefreshView Grid.Row="1" x:Name="refreshView" Refreshing="refreshView_Refreshing">
+                <CollectionView x:Name="lst_produtos" >
+                    <!--Cabeçalho da lista-->
+                    <CollectionView.Header >
+                        <Grid ColumnDefinitions="80, 110, 70, 120, *" BackgroundColor="{StaticResource Gray300}">
+                            <Label Grid.Column="0" Text="ID" Padding="15,0,0,0" FontAttributes="Bold"/>
+                            <Label Grid.Column="1" Text="Descrição" FontAttributes="Bold"/>
+                            <Label Grid.Column="2" Text="Preço" FontAttributes="Bold"/>
+                            <Label Grid.Column="3" Text="Quantidade" FontAttributes="Bold"/>
+                            <Label Grid.Column="4" Text="Total" FontAttributes="Bold"/>
+                        </Grid>
+                    </CollectionView.Header>
+
+                    <!-- Itens da Lista com SwipeView-->
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <!--Envolvendo tudo com SwipeView-->
+                            <SwipeView HeightRequest="60" BackgroundColor="{StaticResource Gray500}">
+                                <!---Definindo As Ações do Swipe-->
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <!---Ação de excluir-->
+                                        <SwipeItem Text="Excluir" BackgroundColor="Red" Clicked="SwipeItem_Clicked"/>
+                                        <!---Ação de editar-->
+                                        <SwipeItem Text="Editar" BackgroundColor="Orange" Clicked="SwipeItem_Clicked_1"/>
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+
+                                <SwipeView.Content>
+                                    <Grid ColumnDefinitions="*, *, *, *, *" Padding="10">
+                                        <Label Grid.Column="0" Text="{Binding Id}" Padding="5"/>
+                                        <Label Grid.Column="1" Text="{Binding Descricao}" />
+                                        <Label Grid.Column="2" Text="{Binding Preco, StringFormat='{}{0:c}'}" />
+                                        <Label Grid.Column="3" Text="{Binding Quantidade}" />
+                                        <Label Grid.Column="4" Text="{Binding Total, StringFormat='{}{0:c}'}" />
+                                    </Grid>
+                                </SwipeView.Content>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+        </Border>
+    </Grid>
 </ContentPage>

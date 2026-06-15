@@ -16,12 +16,19 @@ public partial class ListaProduto : ContentPage
     protected async override void OnAppearing()
     {
 		base.OnAppearing();
+		try
+		{
+			lista.Clear();//Limpa a lista antes de recarregar, desta forma não duplica os itens
+			List<Produto> tmp = await App.Db.GetAll();
+			tmp.ForEach(p => lista.Add(p));
 
-		lista.Clear();//Limpa a lista antes de recarregar, desta forma não duplica os itens
+		}
+		catch (Exception ex)
+		{
+			await DisplayAlertAsync("Erro", ex.Message, "OK");
+		}
 
-		List<Produto> tmp = await App.Db.GetAll();
 
-		tmp.ForEach(p => lista.Add(p));
     }
 
     private void ToolbarItem_Clicked(object sender, EventArgs e)
@@ -42,6 +49,8 @@ public partial class ListaProduto : ContentPage
 		try
 		{
 			string q = e.NewTextValue;
+			refreshView.IsRefreshing = true;
+
 			lista.Clear();
 			List<Produto> tmp = await App.Db.Search(q);
 			tmp.ForEach(p => lista.Add(p));
@@ -51,6 +60,10 @@ public partial class ListaProduto : ContentPage
 		{
             await DisplayAlertAsync("Erro", ex.Message, "OK");
         }
+		finally
+		{
+			refreshView.IsRefreshing = false;
+		}
     }
 
     private async void ToolbarItem_Clicked_1(object sender, EventArgs e)
@@ -109,6 +122,26 @@ public partial class ListaProduto : ContentPage
 		catch (Exception ex)
 		{
 			await DisplayAlertAsync("Erro", ex.Message, "OK");
+		}
+    }
+
+    private async void refreshView_Refreshing(object sender, EventArgs e)
+    {
+		try
+		{
+			lista.Clear();
+
+			List<Produto> tmp = await App.Db.GetAll();
+			tmp.ForEach(p => lista.Add(p));
+		}
+		catch (Exception ex)
+		{
+			await DisplayAlertAsync("Erro", ex.Message, "OK");
+		}
+		finally
+		{
+			refreshView.IsRefreshing = false;
+			
 		}
     }
 }

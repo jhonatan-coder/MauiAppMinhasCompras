@@ -1,6 +1,4 @@
-﻿using MauiAppMinhasCompras.Views;
-using MauiAppMinhasCompras.Helpers;
-using System.Diagnostics;
+﻿using MauiAppMinhasCompras.Helpers;
 namespace MauiAppMinhasCompras
 {
     public partial class App : Application
@@ -37,7 +35,7 @@ namespace MauiAppMinhasCompras
         public App()
         {
             InitializeComponent();
-
+            Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("pt-br");
         }
 
         protected override Window CreateWindow(IActivationState? activationState)
